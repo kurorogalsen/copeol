@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Copeol</title>
+    </head>
+    {% load static %}
+    <link rel='stylesheet' href="{% static 'css/admin.css' %}">
+    
+    <body>
+        
+        <img src="{% static 'img/screen1.jpg' %}" alt="">
+        {% block content %}{% endblock content %}
+    </body>
+</html>

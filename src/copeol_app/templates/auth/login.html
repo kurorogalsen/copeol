@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Copeol - Login</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container py-5 shadow rounded">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+                <h1 id="login-title">Copeol</h1>
+                <h6 class="mt-3">Login</h6>
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="True">×</span>
+                    </button>
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <form class="login-form" method="POST" novalidate>
+                    {% csrf_token %}
+                    <div class="row mt-4">
+                        <div class="col-lg-12">
+                            <div class="form-group position-relative">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                    {{form.username}}
+                                </div>
+                                <small class="text-danger">{{ form.errors.username|striptags }}</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group position-relative">
+                                <div class="form-group position-relative">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                        {{form.password}}
+                                    </div>
+                                    <small class="text-danger">{{ form.errors.password|striptags }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-0 mt-3">
+                            <input type="checkbox" name="remember" id="rememberme" value="0">
+                            <label for="rememberme"> Se souvenir de moi</label><br>
+                        </div>
+                        <div class="col-lg-12 mb-0 mt-3">
+                            <button class="btn btn-primary px-4" type="submit">Login</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

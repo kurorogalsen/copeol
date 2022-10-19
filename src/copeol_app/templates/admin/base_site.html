@@ -1,0 +1,11 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block branding %}
+{% block extrastyle %}
+  <link rel='stylesheet' href="{% static 'css/admin.css' %}">
+{% endblock %}
+<h1 = 'head'>
+<img src="{% static 'img/logo.png' %}" alt="  djDemo" class="brand_img" height="50" width="80">
+djDemo Admin Area
+  </h1>
+{% endblock %}
