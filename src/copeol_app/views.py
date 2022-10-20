@@ -24,20 +24,56 @@ def login_view(request):
         if request.method == "POST":
 
             if form.is_valid():
+                #l = request.user.groups.values_list('name',flat = True) # QuerySet Object
+                #l_as_list = list(l)
+                #usergroup = request.user.groups.all()
+                #print(l)
                 user = authenticate(username=request.POST.get("username"),
                                     password=request.POST.get("password"))
                 if user is not None:
-                    usergroup = request.user.groups.all()
-                    print(usergroup)
                     login(request, user)
-                    return redirect('home')
+                    
+                    usergroup = request.user.groups.all()
+                    useraccess = -1
+                    superadmin = False
+                    vente = False
+                    labo = False
+                    reception = False
+                    try:
+                        print(usergroup[0].id)
+                        useraccess = usergroup[0].id
+                        if useraccess == -1:
+                            superadmin = True
+                        elif useraccess == 1:
+                            vente = True
+                        elif useraccess == 2:
+                            labo = True
+                        elif useraccess == 3:
+                            reception = True
+                        else:
+                            superadmin = True
+
+                    except:
+                        print("error somewhere in group user")
+                        superadmin = True
+
+                    request.session['role'] = useraccess
+                    
+                    context = {
+                        "superadmin": superadmin,
+                        "vente": vente,
+                        "labo": labo,
+                        "reception": reception,
+
+                    }
+                    return render(request, 'home/home.html', context)
+
                 else:
                     messages.error(request, 'Invalid credentials.')
             else:
                 messages.error(request, 'Error validating the form.')
         return render(request, "auth/login.html", {"form": form, "msg": msg})
     return redirect("home")
-    
 
 
 # Dashboard
@@ -225,8 +261,8 @@ def facture_update(request, id):
     print(frais_livraison)
     print(frais_dechargement)
     print(pnc)
-    facture.montant_total = (
-        float(pnc) * float(prix_unitaire)) + float(frais_livraison) + float(frais_dechargement)
+    facture.montant_total = (float(pnc) * float(prix_unitaire)) + float(
+        frais_livraison) + float(frais_dechargement)
 
     facture.save()
     return redirect('factures')

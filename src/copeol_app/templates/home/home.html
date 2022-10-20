@@ -13,11 +13,18 @@
 <body>
     <header class="container-fluid p-3 d-flex flex-column justify-content-center">
         <a href="{% url 'home' %}">
-            <h1 id="login-title">Copeol</h1>
+            <h1 id="login-title">
+                Copeol
+                {% if request.session.role == -1 %} Super administrateur{% endif %}
+                {% if request.session.role == 1 %} Chef de ventes {% endif %}
+                {% if request.session.role == 2 %} Laborantin {% endif %}
+                {% if request.session.role == 3 %} Receptionniste {% endif %}
+            </h1>
         </a>
     </header>
     <main class="container-fluid px-0 m-0 row">
         <aside class="bg-dark d-flex flex-column align-items-center">
+            {% if request.session.role == -1 %}
             <a class="menu-icon p-3" href="#" title="Utilisateurs">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-people-fill"
                     viewBox="0 0 16 16">
@@ -27,6 +34,8 @@
                     <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
                 </svg>
             </a>
+            {% endif %}
+            {% if request.session.role == -1 or request.session.role == 1 %}
             <a class="menu-icon p-3" href="{% url 'commandes' %}" title="Commandes">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-bag-fill"
                     viewBox="0 0 16 16">
@@ -34,6 +43,9 @@
                         d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
                 </svg>
             </a>
+            {% endif %}
+            {% if request.session.role == -1 or request.session.role == 3 %}
+
             <a class="menu-icon p-3" href="{% url 'receptions' %}" title="Fiches de réception">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray"
                     class="bi bi-file-arrow-down-fill" viewBox="0 0 16 16">
@@ -41,6 +53,9 @@
                         d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8 5a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5A.5.5 0 0 1 8 5z" />
                 </svg>
             </a>
+            {% endif %}
+            {% if request.session.role == -1 or request.session.role == 2 %}
+
             <a class="menu-icon p-3" href="{% url 'analyses' %}" title="Fiches d'analyse">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray"
                     class="bi bi-clipboard-data-fill" viewBox="0 0 16 16">
@@ -50,6 +65,8 @@
                         d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1ZM10 8a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V8Zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1Zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z" />
                 </svg>
             </a>
+            {% endif %}
+            {% if request.session.role == -1 or request.session.role == 1 %}
             <a class="menu-icon p-3" href="{% url 'factures' %}" title="Factures">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-folder-fill"
                     viewBox="0 0 16 16">
@@ -57,6 +74,8 @@
                         d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
                 </svg>
             </a>
+            {% endif %}
+
             <a class="menu-icon p-3" href="{% url 'logout' %}" title="Déconnexion">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-box-arrow-right"
                     viewBox="0 0 16 16">
@@ -66,10 +85,11 @@
                         d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
                 </svg>
             </a>
+
         </aside>
         <section class="p-2">
             <!-- Commandes -->
-            {% if commande_form%}
+            {% if commande_form %}
             <div class="w-100 p-0 m-0">
                 <button class="btn btn-success my-4" data-toggle="modal" data-target="#commande-form">
                     Ajouter une commande
@@ -200,7 +220,7 @@
             {% endif %}
 
             <!-- Fiches de réception -->
-            {% if reception_form%}
+            {% if reception_form %}
             <div class="w-100 p-0 m-0">
                 <button class="btn btn-success my-4" data-toggle="modal" data-target="#reception-form">
                     Ajouter une fiche de réception
@@ -234,10 +254,10 @@
                                             id="{{reception_form.provenance_livraison.id_for_label}}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="{{reception_form.date_livraison.id_for_label}}">Date Livraison</label>
+                                        <label for="{{reception_form.date_livraison.id_for_label}}">Date
+                                            Livraison</label>
                                         <input type="date" name="{{ reception_form.date_livraison.name }}"
-                                            class="form-control"
-                                            id="{{ reception_form.date_livraison.id_for_label }}">
+                                            class="form-control" id="{{ reception_form.date_livraison.id_for_label }}">
                                     </div>
 
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -313,13 +333,17 @@
                                                             id="reception{{m.id}}-poids_brut" value="{{m.poids_brut}}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="reception{{m.id}}-provenance-livraison">Provenance livraison
-                                                            </label>
-                                                        <input type="text" class="form-control" name="provenance_livraison"
-                                                            id="reception{{m.id}}-provenance-livraison" value="{{m.provenance_livraison}}">
+                                                        <label for="reception{{m.id}}-provenance-livraison">Provenance
+                                                            livraison
+                                                        </label>
+                                                        <input type="text" class="form-control"
+                                                            name="provenance_livraison"
+                                                            id="reception{{m.id}}-provenance-livraison"
+                                                            value="{{m.provenance_livraison}}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="reception{{m.id}}-date_livraison">Date livraison</label>
+                                                        <label for="reception{{m.id}}-date_livraison">Date
+                                                            livraison</label>
                                                         <input type="Date" min="0" name="date_livraison"
                                                             class="form-control" id="reception{{m.id}}-date_livraison"
                                                             value='{{m.date_livraison | date:"Y-m-d"}}'>
@@ -364,7 +388,8 @@
                                         id="{{analyse_form.variete.id_for_label}}"> -->
                                     </div>
                                     <div class="form-group">
-                                        <label for="{{analyse_form.fiche_reception.id_for_label}}">Fiche de reception</label>
+                                        <label for="{{analyse_form.fiche_reception.id_for_label}}">Fiche de
+                                            reception</label>
                                         {{analyse_form.fiche_reception}}
                                     </div>
                                     <div class="form-group">
@@ -569,27 +594,32 @@
                                                         <label for="facture{{m.id}}-prix_unitaire">
                                                             prix_unitaire (FCFA)</label>
                                                         <input type="number" class="form-control" name="prix_unitaire"
-                                                            id="facture{{m.id}}-prix_unitaire" value="{{m.prix_unitaire}}">
+                                                            id="facture{{m.id}}-prix_unitaire"
+                                                            value="{{m.prix_unitaire}}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="facture{{m.id}}-frais_livraison">
                                                             Frais livraison (FCFA)</label>
                                                         <input type="number" class="form-control" name="frais_livraison"
-                                                            id="facture{{m.id}}-frais_livraison" value="{{m.frais_livraison}}">
+                                                            id="facture{{m.id}}-frais_livraison"
+                                                            value="{{m.frais_livraison}}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="facture{{m.id}}-frais_dechargement">
                                                             Frais dechargement (FCFA)</label>
-                                                        <input type="number" class="form-control" name="frais_dechargement"
-                                                            id="facture{{m.id}}-frais_dechargement" value="{{m.frais_dechargement}}">
+                                                        <input type="number" class="form-control"
+                                                            name="frais_dechargement"
+                                                            id="facture{{m.id}}-frais_dechargement"
+                                                            value="{{m.frais_dechargement}}">
                                                     </div>
 
                                                     <input hidden type="number" class="form-control" name="pnc"
-                                                    id="facture{{m.id}}-pnc" value="{{m.pnc}}">
+                                                        id="facture{{m.id}}-pnc" value="{{m.pnc}}">
 
                                                     <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Fermer</button>
-                                                    <button class="btn btn-warning my-4" type="submit">Enregistrer</button>
+                                                    <button class="btn btn-warning my-4"
+                                                        type="submit">Enregistrer</button>
                                                 </form>
                                             </div>
                                         </div>
