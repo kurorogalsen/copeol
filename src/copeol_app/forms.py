@@ -1,4 +1,5 @@
 from django import forms
+from .models import Commande, Facture, Fiche_analyse, Fiche_reception 
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -19,3 +20,24 @@ class LoginForm(forms.Form):
         ),error_messages={
                'required': 'The password field is required.'
         })
+
+# Create your forms here.
+class CommandeForm(forms.ModelForm):
+    class Meta:
+        model = Commande
+        fields = '__all__'
+
+class ReceptionForm(forms.ModelForm):
+    class Meta:
+        model = Fiche_reception
+        fields = '__all__'
+
+class AnalyseForm(forms.ModelForm):
+    class Meta:
+        model = Fiche_analyse
+        fields = '__all__'
+
+class FactureForm(forms.ModelForm):
+    class Meta:
+        model = Facture
+        fields = '__all__'

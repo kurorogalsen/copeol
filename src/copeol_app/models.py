@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 # Create your models here.
@@ -5,53 +6,55 @@ from django.db import models
 
 
 class Commande(models.Model):
-    poids = models.fields.IntegerField()
     lv_commande = models.fields.CharField(max_length=6)
     provenance_commande = models.fields.CharField(max_length=100)
     date_commande = models.fields.DateField()
-    
+
     def __str__(self):
         return 'Commande ' + self.lv_commande
 
 
-class Camion(models.Model):
-    poids = models.fields.IntegerField()
-    immatriculationulation = models.fields.CharField(max_length=20)
-    nom_transporteur = models.fields.CharField(max_length=50)
-    prenom_transporteur = models.fields.CharField(max_length=50)
-    
-    def __str__(self):
-        return  'Camion ' + self.immatriculationulation
-
-
-class Fiche_analyse(models.Model):
-    poids = models.fields.FloatField()
-    humidite = models.fields.FloatField()
-    poids = models.fields.FloatField()
-    impuretes = models.fields.FloatField()
-    poids_net = models.fields.FloatField()
-    
-    def __str__(self):
-        return 'Fiche analyse ' + self.id
-    
-
-
-class Facture(models.Model):
-    prix_unitaire = models.fields.IntegerField()
-    frais_livraison = models.fields.IntegerField()
-    frais_dechargement = models.fields.IntegerField()
-    montant_total = models.fields.IntegerField()
-    date_facture = models.fields.DateField()
-
-    def __str__(self):
-        return 'Facture ' + self.id
-
-
 class Fiche_reception(models.Model):
-    lv_livraison = models.ForeignKey(Commande, null=True, on_delete=models.SET_NULL)
+    lv_livraison = models.ForeignKey(Commande,
+                                     null=True,
+                                     on_delete=models.SET_NULL)
     poids_brut = models.fields.IntegerField()
     provenance_livraison = models.fields.CharField(max_length=50)
     date_livraison = models.fields.DateField()
 
     def __str__(self):
-        return 'Fiche reception ' + self.id
+        return 'Fiche reception ' + self.lv_livraison.lv_commande
+
+
+class Fiche_analyse(models.Model):
+    VARIETE1 = 'Décortiquées'
+    VARIETE1 = 'Coques'
+
+    CHOICES = (
+        (VARIETE1, 'Décortiquées'),
+        (VARIETE1, 'Coques'),
+    )
+
+    variete = models.CharField(max_length=15, choices=CHOICES)
+    fiche_reception = models.ForeignKey(Fiche_reception,
+                                        null=True,
+                                        on_delete=models.SET_NULL)
+    humidite = models.fields.FloatField()
+    impuretes = models.fields.FloatField()
+    taux_graines_defectueuses = models.fields.IntegerField()
+
+    def __str__(self):
+        return 'Fiche analyse ' + self.id
+
+
+class Facture(models.Model):
+    provenance = models.fields.CharField(max_length=100)
+    pnc = models.fields.FloatField()
+    prix_unitaire = models.fields.IntegerField(default=0)
+    frais_livraison = models.fields.IntegerField(default=0)
+    frais_dechargement = models.fields.IntegerField(default=0)
+    montant_total = models.fields.IntegerField(default=0)
+    date_facture = models.fields.DateField()
+
+    def __str__(self):
+        return 'Facture ' + self.id

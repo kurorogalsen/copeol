@@ -3,29 +3,628 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Tuts-Station.com - Home</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <title>Copeol - Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/admin.css' %}">
-
 </head>
 
 <body>
-    <div class="container pt-5">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Home</h3>
+    <header class="container-fluid p-3 d-flex flex-column justify-content-center">
+        <a href="{% url 'home' %}">
+            <h1 id="login-title">Copeol</h1>
+        </a>
+    </header>
+    <main class="container-fluid px-0 m-0 row">
+        <aside class="bg-dark d-flex flex-column align-items-center">
+            <a class="menu-icon p-3" href="#" title="Utilisateurs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-people-fill"
+                    viewBox="0 0 16 16">
+                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    <path fill-rule="evenodd"
+                        d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z" />
+                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
+                </svg>
+            </a>
+            <a class="menu-icon p-3" href="{% url 'commandes' %}" title="Commandes">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-bag-fill"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
+                </svg>
+            </a>
+            <a class="menu-icon p-3" href="{% url 'receptions' %}" title="Fiches de réception">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray"
+                    class="bi bi-file-arrow-down-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8 5a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5A.5.5 0 0 1 8 5z" />
+                </svg>
+            </a>
+            <a class="menu-icon p-3" href="{% url 'analyses' %}" title="Fiches d'analyse">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray"
+                    class="bi bi-clipboard-data-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z" />
+                    <path
+                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1ZM10 8a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V8Zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1Zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z" />
+                </svg>
+            </a>
+            <a class="menu-icon p-3" href="{% url 'factures' %}" title="Factures">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-folder-fill"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
+                </svg>
+            </a>
+            <a class="menu-icon p-3" href="{% url 'logout' %}" title="Déconnexion">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-box-arrow-right"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                    <path fill-rule="evenodd"
+                        d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                </svg>
+            </a>
+        </aside>
+        <section class="p-2">
+            <!-- Commandes -->
+            {% if commande_form%}
+            <div class="w-100 p-0 m-0">
+                <button class="btn btn-success my-4" data-toggle="modal" data-target="#commande-form">
+                    Ajouter une commande
+                </button>
+                <div class="modal fade" id="commande-form" tabindex="-1" role="dialog"
+                    aria-labelledby="Commande formulaire" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form method="post" enctype="multipart/form-data">
+                                    <h3 class="my-3">Nouvelle commande</h3>
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="{{commande_form.lv_commande.id_for_label}}">LV commande</label>
+                                        <input type="text" maxlength="6" class="form-control"
+                                            name="{{commande_form.lv_commande.name}}"
+                                            id="{{commande_form.lv_commande.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            for="{{commande_form.provenance_commande.id_for_label}}">Provenance_commande</label>
+                                        <input type="text" class="form-control"
+                                            name="{{commande_form.provenance_commande.name}}"
+                                            id="{{commande_form.provenance_commande.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{commande_form.date_commande.id_for_label}}">Date</label>
+                                        <input type="date" name="{{ commande_form.date_commande.name }}"
+                                            class="form-control" id="{{ commande_form.date_commande.id_for_label }}">
+                                    </div>
+
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    <button class="btn btn-success my-4" type="submit">Créer</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p>Welcome to Dashboard</p>
-                        <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                </div>
+
+                <div class="w-100 card">
+                    <div class="w-100 card-header">
+                        <h2>Commandes</h2>
+                    </div>
+                    <div class="w-100 card-body">
+                        <table class="w-100 table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">LV</th>
+                                    <th scope="col">Provenance</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in commande %}
+                                <tr>
+                                    <th scope="row">{{m.id}}</th>
+                                    <td>{{m.lv_commande}}</td>
+                                    <td>{{m.provenance_commande}}</td>
+                                    <td>{{m.date_commande}}</td>
+                                    <td>
+                                        <span title="Voir la commande" class="m-2 pointer" role="button"
+                                            data-toggle="modal" data-target="#commande{{m.id}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                fill="#25a6d5" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                <path
+                                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                            </svg>
+                                        </span>
+                                        <a href="delete/{{ m.id }}" title="Supprimer la commande" class="m-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red"
+                                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="commande{{m.id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="Commande formulaire" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form method="post" enctype="multipart/form-data"
+                                                    action="update/{{m.id}}">
+                                                    <h3 class="my-3">Mettre à jour la commande</h3>
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="commande{{m.id}}-lv">LV
+                                                            commande</label>
+                                                        <input type="text" maxlength="6" class="form-control"
+                                                            name="lv_commande" id="commande{{m.id}}-lv"
+                                                            value="{{m.lv_commande}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="commande{{m.id}}-provenance">Provenance_commande</label>
+                                                        <input type="text" class="form-control"
+                                                            name="provenance_commande" id="commande{{m.id}}-provenance"
+                                                            value="{{m.provenance_commande}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="commande{{m.id}}-date">Date</label>
+                                                        <input type="date" name="date_commande" class="form-control"
+                                                            id="commande{{m.id}}-date"
+                                                            value='{{m.date_commande|date:"Y-m-d"}}'>
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Fermer</button>
+                                                    <button class="btn btn-warning my-4" type="submit">Modifier</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p>Pas de commandes.</p>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+            {% endif %}
+
+            <!-- Fiches de réception -->
+            {% if reception_form%}
+            <div class="w-100 p-0 m-0">
+                <button class="btn btn-success my-4" data-toggle="modal" data-target="#reception-form">
+                    Ajouter une fiche de réception
+                </button>
+                <div class="modal fade" id="reception-form" tabindex="-1" role="dialog"
+                    aria-labelledby="Fiche de reception formulaire" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form method="post" enctype="multipart/form-data">
+                                    <h3 class="my-3">Nouvelle fiche de reception</h3>
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="{{reception_form.variete.id_for_label}}">LV livraison</label>
+                                        {{reception_form.lv_livraison}}
+                                        <!-- <input type="number" class="form-control" name="{{reception_form.variete.name}}"
+                                        id="{{reception_form.variete.id_for_label}}"> -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{reception_form.poids_brut.id_for_label}}">Poids Brut</label>
+                                        <input type="number" class="form-control"
+                                            name="{{reception_form.poids_brut.name}}"
+                                            id="{{reception_form.poids_brut.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{reception_form.provenance_livraison.id_for_label}}">
+                                            Provenance Livraison
+                                        </label>
+                                        <input type="text" class="form-control"
+                                            name="{{reception_form.provenance_livraison.name}}"
+                                            id="{{reception_form.provenance_livraison.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{reception_form.date_livraison.id_for_label}}">Date Livraison</label>
+                                        <input type="date" name="{{ reception_form.date_livraison.name }}"
+                                            class="form-control"
+                                            id="{{ reception_form.date_livraison.id_for_label }}">
+                                    </div>
+
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    <button class="btn btn-success my-4" type="submit">Créer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-100 card">
+                    <div class="w-100 card-header">
+                        <h2>Liste des fiches de reception</h2>
+                    </div>
+                    <div class="w-100 card-body">
+                        <table class="w-100 table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">LV livraison</th>
+                                    <th scope="col">Poids Brut (Kg)</th>
+                                    <th scope="col">Provenance Livraison (%)</th>
+                                    <th scope="col">Date Livraison</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in reception %}
+                                <tr>
+                                    <th scope="row">{{m.id}}</th>
+                                    <td>{{m.lv_livraison}}</td>
+                                    <td>{{m.poids_brut}}</td>
+                                    <td>{{m.provenance_livraison}}</td>
+                                    <td>{{m.date_livraison}}</td>
+                                    <td>
+                                        <span title="Voir la fiche" class="m-2 pointer" role="button"
+                                            data-toggle="modal" data-target="#reception{{m.id}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                fill="#25a6d5" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                <path
+                                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                            </svg>
+                                        </span>
+                                        <a href="delete/{{ m.id }}" title="Supprimer la fiche" class="m-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red"
+                                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="reception{{m.id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="Fiche de reception formulaire" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form method="post" enctype="multipart/form-data"
+                                                    action="update/{{m.id}}">
+                                                    <h3 class="my-3">Mettre à jour la fiche</h3>
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="#reception{{m.id}}-lv_livraison">LV livraison
+                                                        </label>
+                                                        {{reception_form.lv_livraison}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="reception{{m.id}}-poids_brut">
+                                                            Poids Brut (kg)</label>
+                                                        <input type="number" class="form-control" name="poids_brut"
+                                                            id="reception{{m.id}}-poids_brut" value="{{m.poids_brut}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="reception{{m.id}}-provenance-livraison">Provenance livraison
+                                                            </label>
+                                                        <input type="text" class="form-control" name="provenance_livraison"
+                                                            id="reception{{m.id}}-provenance-livraison" value="{{m.provenance_livraison}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="reception{{m.id}}-date_livraison">Date livraison</label>
+                                                        <input type="Date" min="0" name="date_livraison"
+                                                            class="form-control" id="reception{{m.id}}-date_livraison"
+                                                            value='{{m.date_livraison | date:"Y-m-d"}}'>
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Fermer</button>
+                                                    <button class="btn btn-warning my-4" type="submit">Modifier</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p>Pas de fiche pour l'instant.</p>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Fiches d'analyse -->
+            {% if analyse_form%}
+            <div class="w-100 p-0 m-0">
+                <button class="btn btn-success my-4" data-toggle="modal" data-target="#analyse-form">
+                    Ajouter une fiche d'analyse
+                </button>
+                <div class="modal fade" id="analyse-form" tabindex="-1" role="dialog"
+                    aria-labelledby="Fiche d'analyse formulaire" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form method="post" enctype="multipart/form-data">
+                                    <h3 class="my-3">Nouvelle fiche d'analyse</h3>
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="{{analyse_form.variete.id_for_label}}">Varietés</label>
+                                        {{analyse_form.variete}}
+                                        <!-- <input type="number" class="form-control" name="{{analyse_form.variete.name}}"
+                                        id="{{analyse_form.variete.id_for_label}}"> -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{analyse_form.fiche_reception.id_for_label}}">Fiche de reception</label>
+                                        {{analyse_form.fiche_reception}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{analyse_form.humidite.id_for_label}}">Taux d'humidité (%)</label>
+                                        <input min="0" max="100" type="number" class="form-control"
+                                            name="{{analyse_form.humidite.name}}"
+                                            id="{{analyse_form.humidite.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{analyse_form.impuretes.id_for_label}}">Taux d'impuretés
+                                            (%)</label>
+                                        <input min="0" max="100" type="number" class="form-control"
+                                            name="{{analyse_form.impuretes.name}}"
+                                            id="{{analyse_form.impuretes.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{analyse_form.taux_graines_defectueuses.id_for_label}}">Taux de
+                                            graines défectueuses (%)</label>
+                                        <input type="number" name="{{ analyse_form.taux_graines_defectueuses.name }}"
+                                            class="form-control"
+                                            id="{{ analyse_form.taux_graines_defectueuses.id_for_label }}">
+                                    </div>
+
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    <button class="btn btn-success my-4" type="submit">Créer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-100 card">
+                    <div class="w-100 card-header">
+                        <h2>Liste des fiches d'analyse</h2>
+                    </div>
+                    <div class="w-100 card-body">
+                        <table class="w-100 table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Fiche de reception</th>
+                                    <th scope="col">Varietés</th>
+                                    <th scope="col">Humidité (%)</th>
+                                    <th scope="col">Impuretés (%)</th>
+                                    <th scope="col">Graines Defectueuses (%)</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in analyse %}
+                                <tr>
+                                    <th scope="row">{{m.id}}</th>
+                                    <td>{{m.fiche_reception}}</td>
+                                    <td>{{m.variete}}</td>
+                                    <td>{{m.humidite}}</td>
+                                    <td>{{m.impuretes}}</td>
+                                    <td>{{m.taux_graines_defectueuses}}</td>
+                                    <td>
+                                        <span title="Voir la fiche" class="m-2 pointer" role="button"
+                                            data-toggle="modal" data-target="#analyse{{m.id}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                fill="#25a6d5" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                <path
+                                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                            </svg>
+                                        </span>
+                                        <a href="delete/{{ m.id }}" title="Supprimer la fiche" class="m-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red"
+                                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="analyse{{m.id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="Fiche d'analyse formulaire" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form method="post" enctype="multipart/form-data"
+                                                    action="update/{{m.id}}">
+                                                    <h3 class="my-3">Mettre à jour la fiche</h3>
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="#analyse{{m.id}}-fiche_reception">Fiche de reception
+                                                        </label>
+                                                        {{analyse_form.fiche_reception}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="#analyse{{m.id}}-variete">Varietés
+                                                        </label>
+                                                        {{analyse_form.variete}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="analyse{{m.id}}-humidite">
+                                                            Taux d'humidité (%)</label>
+                                                        <input type="text" class="form-control" name="humidite"
+                                                            id="analyse{{m.id}}-humidite" value="{{m.humidite}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="analyse{{m.id}}-impuretes">Taux d'impureté
+                                                            (%)</label>
+                                                        <input type="text" class="form-control" name="impuretes"
+                                                            id="analyse{{m.id}}-impuretes" value="{{m.impuretes}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="analyse{{m.id}}-graines">Taux de graines
+                                                            defectueuses (%)</label>
+                                                        <input type="number" min="0" name="taux_graines_defectueuses"
+                                                            class="form-control" id="analyse{{m.id}}-graines"
+                                                            value='{{m.taux_graines_defectueuses}}'>
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Fermer</button>
+                                                    <button class="btn btn-warning my-4" type="submit">Modifier</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p>Pas de fiche pour l'instant.</p>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+
+            <!-- Factures -->
+            {% if facture_form%}
+            <div class="w-100 p-0 m-0">
+                <div class="w-100 card">
+                    <div class="w-100 card-header">
+                        <h2>Liste des factures</h2>
+                    </div>
+                    <div class="w-100 card-body">
+                        <table class="w-100 table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Provenance</th>
+                                    <th scope="col">PNC (Kg)</th>
+                                    <th scope="col">Prix unitaire (FCFA)</th>
+                                    <th scope="col">Frais Livraison (FCFA)</th>
+                                    <th scope="col">Frais dechargement (FCFA)</th>
+                                    <th scope="col">Montant total (FCFA)</th>
+                                    <th scope="col">Date facture</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in facture %}
+                                <tr>
+                                    <th scope="row">{{m.id}}</th>
+                                    <td>{{m.provenance}}</td>
+                                    <td>{{m.pnc}}</td>
+                                    <td>{{m.prix_unitaire}}</td>
+                                    <td>{{m.frais_livraison}}</td>
+                                    <td>{{m.frais_dechargement}}</td>
+                                    <td>{{m.montant_total}}</td>
+                                    <td>{{m.date_facture}}</td>
+                                    <td>
+                                        <span title="Voir la fiche" class="m-2 pointer" role="button"
+                                            data-toggle="modal" data-target="#facture{{m.id}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                fill="#25a6d5" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                <path
+                                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                            </svg>
+                                        </span>
+                                        <a href="delete/{{ m.id }}" title="Supprimer la fiche" class="m-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red"
+                                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="facture{{m.id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="Facture formulaire" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form method="post" enctype="multipart/form-data"
+                                                    action="update/{{m.id}}">
+                                                    <h3 class="my-3">Mettre à jour la facture</h3>
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="#facture{{m.id}}-fiche_reception">Fiche de reception
+                                                        </label>
+                                                        {{facture_form.fiche_reception}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="#facture{{m.id}}-variete">Varietés
+                                                        </label>
+                                                        {{facture_form.variete}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="facture{{m.id}}-humidite">
+                                                            Taux d'humidité (%)</label>
+                                                        <input type="text" class="form-control" name="humidite"
+                                                            id="facture{{m.id}}-humidite" value="{{m.humidite}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="facture{{m.id}}-impuretes">Taux d'impureté
+                                                            (%)</label>
+                                                        <input type="text" class="form-control" name="impuretes"
+                                                            id="facture{{m.id}}-impuretes" value="{{m.impuretes}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="facture{{m.id}}-graines">Taux de graines
+                                                            defectueuses (%)</label>
+                                                        <input type="number" min="0" name="taux_graines_defectueuses"
+                                                            class="form-control" id="facture{{m.id}}-graines"
+                                                            value='{{m.taux_graines_defectueuses}}'>
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Fermer</button>
+                                                    <button class="btn btn-warning my-4" type="submit">Modifier</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p>Pas de fiche pour l'instant.</p>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
