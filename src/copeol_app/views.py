@@ -1,3 +1,4 @@
+from datetime import date
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -26,6 +27,8 @@ def login_view(request):
                 user = authenticate(username=request.POST.get("username"),
                                     password=request.POST.get("password"))
                 if user is not None:
+                    usergroup = request.user.groups.all()
+                    print(usergroup)
                     login(request, user)
                     return redirect('home')
                 else:
@@ -34,6 +37,7 @@ def login_view(request):
                 messages.error(request, 'Error validating the form.')
         return render(request, "auth/login.html", {"form": form, "msg": msg})
     return redirect("home")
+    
 
 
 # Dashboard
@@ -127,6 +131,9 @@ def analyse_get(request):
         form = AnalyseForm(request.POST)
         if form.is_valid():
             form.save()
+            analyse_latest_id = Fiche_analyse.objects.latest('id').id
+            print(analyse_latest_id)
+            fiche_analyse = 'Fiche analyse ' + str(analyse_latest_id)
             facture_percentenge = form.cleaned_data[
                 'humidite'] + form.cleaned_data[
                     'impuretes'] + form.cleaned_data[
@@ -136,9 +143,11 @@ def analyse_get(request):
                 'fiche_reception'].provenance_livraison
             facture_date = form.cleaned_data['fiche_reception'].date_livraison
 
-            facture = Facture(provenance=facture_provenance,
-                              pnc=facture_poids * (1 - facture_percentenge / 100),
-                              date_facture=facture_date)
+            facture = Facture(fiche_analyse=fiche_analyse,
+                              provenance=facture_provenance,
+                              pnc=int(facture_poids *
+                                      (1 - facture_percentenge / 100)),
+                              date_facture=date.today().strftime('%Y-%m-%d'))
             facture.save()
     return render(request,
                   'home/home.html',
@@ -196,19 +205,28 @@ def facture_delete(request, id):
 
 
 def facture_update(request, id):
-    fiche_reception = request.POST['fiche_reception']
-    variete = request.POST['variete']
-    humidite = request.POST['humidite']
-    impuretes = request.POST['impuretes']
-    taux_graines_defectueuses = request.POST['taux_graines_defectueuses']
+    prix_unitaire = request.POST['prix_unitaire']
+    frais_livraison = request.POST['frais_livraison']
+    frais_dechargement = request.POST['frais_dechargement']
+    date_facture = date.today().strftime('%Y-%m-%d')
 
     facture = Facture.objects.get(id=id)
 
-    facture.fiche_reception = fiche_reception
-    facture.variete = variete
-    facture.humidite = humidite
-    facture.impuretes = impuretes
-    facture.taux_graines_defectueuses = taux_graines_defectueuses
+    facture.prix_unitaire = float(
+        prix_unitaire.replace(',', '').replace(' ', ''))
+    facture.frais_livraison = float(
+        frais_livraison.replace(',', '').replace(' ', ''))
+    facture.frais_dechargement = float(
+        frais_dechargement.replace(',', '').replace(' ', ''))
+    facture.date_facture = date_facture
+    pnc = float(facture.pnc)
+
+    print(prix_unitaire)
+    print(frais_livraison)
+    print(frais_dechargement)
+    print(pnc)
+    facture.montant_total = (
+        float(pnc) * float(prix_unitaire)) + float(frais_livraison) + float(frais_dechargement)
 
     facture.save()
-    return redirect('facture')
+    return redirect('factures')

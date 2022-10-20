@@ -513,6 +513,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">Fiche d'analyse</th>
                                     <th scope="col">Provenance</th>
                                     <th scope="col">PNC (Kg)</th>
                                     <th scope="col">Prix unitaire (FCFA)</th>
@@ -527,6 +528,7 @@
                                 {% for m in facture %}
                                 <tr>
                                     <th scope="row">{{m.id}}</th>
+                                    <td>{{m.fiche_analyse}}</td>
                                     <td>{{m.provenance}}</td>
                                     <td>{{m.pnc}}</td>
                                     <td>{{m.prix_unitaire}}</td>
@@ -564,38 +566,30 @@
                                                     <h3 class="my-3">Mettre à jour la facture</h3>
                                                     {% csrf_token %}
                                                     <div class="form-group">
-                                                        <label for="#facture{{m.id}}-fiche_reception">Fiche de reception
-                                                        </label>
-                                                        {{facture_form.fiche_reception}}
+                                                        <label for="facture{{m.id}}-prix_unitaire">
+                                                            prix_unitaire (FCFA)</label>
+                                                        <input type="number" class="form-control" name="prix_unitaire"
+                                                            id="facture{{m.id}}-prix_unitaire" value="{{m.prix_unitaire}}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="#facture{{m.id}}-variete">Varietés
-                                                        </label>
-                                                        {{facture_form.variete}}
+                                                        <label for="facture{{m.id}}-frais_livraison">
+                                                            Frais livraison (FCFA)</label>
+                                                        <input type="number" class="form-control" name="frais_livraison"
+                                                            id="facture{{m.id}}-frais_livraison" value="{{m.frais_livraison}}">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="facture{{m.id}}-humidite">
-                                                            Taux d'humidité (%)</label>
-                                                        <input type="text" class="form-control" name="humidite"
-                                                            id="facture{{m.id}}-humidite" value="{{m.humidite}}">
+                                                        <label for="facture{{m.id}}-frais_dechargement">
+                                                            Frais dechargement (FCFA)</label>
+                                                        <input type="number" class="form-control" name="frais_dechargement"
+                                                            id="facture{{m.id}}-frais_dechargement" value="{{m.frais_dechargement}}">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="facture{{m.id}}-impuretes">Taux d'impureté
-                                                            (%)</label>
-                                                        <input type="text" class="form-control" name="impuretes"
-                                                            id="facture{{m.id}}-impuretes" value="{{m.impuretes}}">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="facture{{m.id}}-graines">Taux de graines
-                                                            defectueuses (%)</label>
-                                                        <input type="number" min="0" name="taux_graines_defectueuses"
-                                                            class="form-control" id="facture{{m.id}}-graines"
-                                                            value='{{m.taux_graines_defectueuses}}'>
-                                                    </div>
+
+                                                    <input hidden type="number" class="form-control" name="pnc"
+                                                    id="facture{{m.id}}-pnc" value="{{m.pnc}}">
 
                                                     <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Fermer</button>
-                                                    <button class="btn btn-warning my-4" type="submit">Modifier</button>
+                                                    <button class="btn btn-warning my-4" type="submit">Enregistrer</button>
                                                 </form>
                                             </div>
                                         </div>

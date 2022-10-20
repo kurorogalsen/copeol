@@ -9,7 +9,7 @@ urlpatterns = [
     #path('', admin.site.urls),
 
     path('login/', login_view, name="login"),
-    #path('', home, name="home"),
+    path('', home, name="home"),
     path('home/', home, name="home"),
 
     path('home/commandes/', commande_get, name="commandes"),

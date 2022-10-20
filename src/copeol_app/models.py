@@ -28,11 +28,11 @@ class Fiche_reception(models.Model):
 
 class Fiche_analyse(models.Model):
     VARIETE1 = 'Décortiquées'
-    VARIETE1 = 'Coques'
+    VARIETE2 = 'Coques'
 
     CHOICES = (
         (VARIETE1, 'Décortiquées'),
-        (VARIETE1, 'Coques'),
+        (VARIETE2, 'Coques'),
     )
 
     variete = models.CharField(max_length=15, choices=CHOICES)
@@ -48,6 +48,7 @@ class Fiche_analyse(models.Model):
 
 
 class Facture(models.Model):
+    fiche_analyse = models.fields.CharField(max_length=100)
     provenance = models.fields.CharField(max_length=100)
     pnc = models.fields.FloatField()
     prix_unitaire = models.fields.IntegerField(default=0)
@@ -55,6 +56,7 @@ class Facture(models.Model):
     frais_dechargement = models.fields.IntegerField(default=0)
     montant_total = models.fields.IntegerField(default=0)
     date_facture = models.fields.DateField()
+    #dater = datetime.today()
 
     def __str__(self):
         return 'Facture ' + self.id
