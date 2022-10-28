@@ -1,3 +1,4 @@
+#PROCEDURE ONLY FOR LINUX DISTRIBUTIONS
 1. python -m venv copeol-env #créer un envirionnement
 2. source copeol-env/bin/activate #active l'environnement, pour le désactiver entrer "deactivate"
 3. pip install -r requirements.txt #installer les dépendances

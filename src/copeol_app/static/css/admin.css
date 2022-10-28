@@ -31,16 +31,16 @@ header {
   top: 0;
   width: 100%;
   z-index: 100;
-  height: 50px;
+  height: 70px;
   background: white;
 }
 
 main {
   height: 100vh;
-  padding-top: 50px;
+  padding-top: 70px;
 }
 
-aside{
+aside {
   width: 5%;
 }
 
@@ -51,4 +51,22 @@ section {
 
 .menu-icon>svg:hover, .menu-icon>svg:active {
   fill: #25a6d5;
+}
+
+#user-profile {
+  position: relative;
+}
+
+#collapseExample {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0%;
+  width: 300px;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }

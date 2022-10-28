@@ -1,16 +1,21 @@
 from django.contrib import admin
 from django.urls import path
-from copeol_app.views import analyse_delete, analyse_get, analyse_update, commande_delete, commande_get, commande_update, facture_delete, facture_get, facture_update, index, login_view, home, reception_delete, reception_get, reception_update
+from copeol_app.views import analyse_delete, analyse_get, analyse_update, commande_delete, commande_get, commande_update, editprofile, facture_delete, facture_get, facture_update, index, login_view, home, reception_delete, reception_get, reception_update, user_delete, user_update, users_get
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     #path('test', index, name="copeol-app-index"),
     #path('', admin.site.urls),
-    #path('', admin.site.urls),
 
     path('login/', login_view, name="login"),
     path('', home, name="home"),
     path('home/', home, name="home"),
+
+    path('home/editprofile/<int:id>', editprofile, name="edit-profile"),
+
+    path('home/users/', users_get, name="users"),
+    path('home/users/update/<int:id>', user_update, name="user-update"),
+    path('home/users/delete/<int:id>', user_delete, name="user-delete"),
 
     path('home/commandes/', commande_get, name="commandes"),
     path('home/commandes/update/<int:id>', commande_update, name="commande-update"),

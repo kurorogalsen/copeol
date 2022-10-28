@@ -1,3 +1,4 @@
+from collections import UserList
 from datetime import date
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -6,8 +7,12 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from copeol_app import forms
 from copeol_app.models import Commande, Facture, Fiche_analyse, Fiche_reception
-from .forms import AnalyseForm, CommandeForm, FactureForm, ReceptionForm
+from .forms import AnalyseForm, CommandeForm, FactureForm, ReceptionForm, SignUpForm
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -32,18 +37,27 @@ def login_view(request):
                                     password=request.POST.get("password"))
                 if user is not None:
                     login(request, user)
-                    
-                    usergroup = request.user.groups.all()
-                    useraccess = -1
+                    username = request.user.username
+                    if request.user.groups.all():
+                        usergroup = request.user.groups.all()
+                    useraccess = 0
                     superadmin = False
                     vente = False
                     labo = False
                     reception = False
+
+                    print(user.is_superuser)
+                    if request.user.is_superuser:
+                        superadmin = True
+                        useraccess = -1
                     try:
                         print(usergroup[0].id)
                         useraccess = usergroup[0].id
-                        if useraccess == -1:
+                        print("myuser")
+                        print(user.is_superuser())
+                        if request.user.is_superuser:
                             superadmin = True
+                            useraccess = -1
                         elif useraccess == 1:
                             vente = True
                         elif useraccess == 2:
@@ -55,16 +69,17 @@ def login_view(request):
 
                     except:
                         print("error somewhere in group user")
-                        superadmin = True
 
                     request.session['role'] = useraccess
-                    
+                    request.session['username'] = username
+
                     context = {
                         "superadmin": superadmin,
                         "vente": vente,
                         "labo": labo,
                         "reception": reception,
-
+                        "username": username,
+                        "user": request.user
                     }
                     return render(request, 'home/home.html', context)
 
@@ -76,11 +91,96 @@ def login_view(request):
     return redirect("home")
 
 
+#Edit profile
+def editprofile(request, id):
+    username = request.POST['username']
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
+    email = request.POST['email']
+    password1 = request.POST['password1']
+    password2 = request.POST['password2']
+
+    user = User.objects.get(id=id)
+
+    user.username = username
+    user.first_name = first_name
+    user.last_name = last_name
+    user.email = email
+    if password2 == password1 :
+        user.set_password(password1)
+    else:
+        messages.add_message(request, messages.ERROR, 'Les mots de passe sont différents.')
+    user.save()
+    return redirect('/')
+
 # Dashboard
 def home(request):
     if request.user.is_authenticated:
         return render(request, "home/home.html")
     return redirect('login')
+
+
+# users/views
+def users_get(request):
+    users_form = SignUpForm()
+    print("user form")
+    users = get_user_model().objects.all().order_by('-id')
+    allgroup = Group.objects.all()
+    if request.method == 'POST':
+        print("Entrée post")
+        users_form = SignUpForm(request.POST)
+        if users_form.is_valid():
+            print("Entrée valid")
+            users_form.save()
+            aded_username = users_form.cleaned_data['username']
+            print(aded_username)
+            aded_user = User.objects.get(username=aded_username)
+            aded_group = users_form.cleaned_data['group']
+            the_group = Group.objects.get(name=aded_group)
+            the_group.user_set.add(aded_user)
+            messages.success(request, 'Account created successfully')
+        else:
+            messages.error(request, 'Champs invalides')
+    return render(request,
+                  'home/home.html',
+                  context={
+                      'users_form': users_form,
+                      'users': users,
+                      'groups': allgroup
+                  })
+
+
+def user_delete(request, id):
+    user = User.objects.get(id=id)
+    user.delete()
+    return redirect('users')
+
+
+def user_update(request, id):
+
+    username = request.POST['username']
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
+    email = request.POST['email']
+    role = request.POST['group']
+
+    user = User.objects.get(id=id)
+
+    user.username = username
+    user.first_name = first_name
+    user.last_name = last_name
+    user.email = email
+
+    user.save()
+
+    for group in user.groups.all():
+        ancien_group = group
+        ancien_group.user_set.remove(user)
+
+    new_group = Group.objects.get(id=role)
+    new_group.user_set.add(user)
+
+    return redirect('users')
 
 
 # commandes/views

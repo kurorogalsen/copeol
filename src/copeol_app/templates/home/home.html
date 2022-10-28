@@ -11,21 +11,100 @@
 </head>
 
 <body>
-    <header class="container-fluid p-3 d-flex flex-column justify-content-center">
+    <header class="container-fluid p-3 d-flex align-items-center justify-content-between">
         <a href="{% url 'home' %}">
-            <h1 id="login-title">
-                Copeol
-                {% if request.session.role == -1 %} Super administrateur{% endif %}
-                {% if request.session.role == 1 %} Chef de ventes {% endif %}
-                {% if request.session.role == 2 %} Laborantin {% endif %}
-                {% if request.session.role == 3 %} Receptionniste {% endif %}
-            </h1>
+            <h1 id="login-title">Copeol</h1>
         </a>
+        <div id="user-profile" class="d-flex flex-column align-items-end">
+            <button class="btn btn-primary rounded-circle p-0 bi bi-person-circle" data-toggle="collapse"
+                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                style="width: 30px;height: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg>
+            </button>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <div style="text-transform: capitalize;">
+                        {{user.first_name}} (
+                        {% if request.session.role == -1 %} Super administrateur{% endif %}
+                        {% if request.session.role == 1 %} Chef des achats {% endif %}
+                        {% if request.session.role == 2 %} Laborantin {% endif %}
+                        {% if request.session.role == 3 %} Receptionniste {% endif %} )
+                    </div>
+                    <hr />
+                    <div>
+                        {{user.email}}
+                    </div>
+                    <hr />
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profile-modal">
+                        Modifier mon profil
+                    </button>
+                    <hr />
+                    <div>
+                        <a href="{% url 'logout' %}" title="Déconnexion">Déconnexion</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </header>
+
+    <div class="modal fade" id="profile-modal" tabindex="-1" aria-labelledby="profile-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profile-modalLabel">Modifier mes infomations personnelles </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" action="/home/editprofile/{{user.id}}">
+                        <h3 class="my-3">Modifier informations</h3>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{user.username}}">Username</label>
+                            <input type="text" class="form-control" name="username" id="{{user.username}}"
+                                value="{{user.username}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{user.first_name}}">Prénom</label>
+                            <input type="text" class="form-control" name="first_name" id="{{user.first_name}}"
+                                value="{{user.first_name}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{user.last_name}}">Nom</label>
+                            <input type="text" class="form-control" name="last_name" id="{{user.last_name}}"
+                                value="{{user.last_name}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{user.email}}">Email</label>
+                            <input type="email" class="form-control" name="email" id="{{user.email}}"
+                                value="{{user.email}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{user.password1}}">Password</label>
+                            <input type="password" class="form-control" name="password1" id="{{user.password1}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{user.password2}}">Confirm password</label>
+                            <input type="password" class="form-control" name="password2" id="{{user.password2}}" required>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button class="btn btn-success my-4" type="submit">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main class="container-fluid px-0 m-0 row">
         <aside class="bg-dark d-flex flex-column align-items-center">
             {% if request.session.role == -1 %}
-            <a class="menu-icon p-3" href="#" title="Utilisateurs">
+            <a class="menu-icon p-3" href="{% url 'users' %}" title="Utilisateurs">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="gray" class="bi bi-people-fill"
                     viewBox="0 0 16 16">
                     <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
@@ -88,6 +167,198 @@
 
         </aside>
         <section class="p-2">
+
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <!-- Users -->
+            {% if users_form %}
+            <div class="w-100 p-0 m-0">
+                <button class="btn btn-success my-4" data-toggle="modal" data-target="#user-form">
+                    Ajouter un utilisateur
+                </button>
+                <div class="modal fade" id="user-form" tabindex="-1" role="dialog" aria-labelledby="User formulaire"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form method="post" enctype="multipart/form-data">
+                                    <h3 class="my-3">Nouvel utilisateur</h3>
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="{{users_form.username.id_for_label}}">Username</label>
+                                        <input type="text" class="form-control" name="{{users_form.username.name}}"
+                                            id="{{users_form.username.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{users_form.first_name.id_for_label}}">Prénom</label>
+                                        <input type="text" class="form-control" name="{{users_form.first_name.name}}"
+                                            id="{{users_form.first_name.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{users_form.last_name.id_for_label}}">Nom</label>
+                                        <input type="text" class="form-control" name="{{users_form.last_name.name}}"
+                                            id="{{users_form.last_name.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{users_form.email.id_for_label}}">Email</label>
+                                        <input type="email" class="form-control" name="{{users_form.email.name}}"
+                                            id="{{users_form.email.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{users_form.password1.id_for_label}}">Password</label>
+                                        <input type="password" class="form-control" name="{{users_form.password1.name}}"
+                                            id="{{users_form.password1.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="{{users_form.password2.id_for_label}}">Confirm password</label>
+                                        <input type="password" class="form-control" name="{{users_form.password2.name}}"
+                                            id="{{users_form.password2.id_for_label}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="#id_group_">Rôle</label>
+                                        <select id="id_group" name="group" class="form-control">
+                                            {% for m in users_form.group %}
+                                            {{m}}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    <button class="btn btn-success my-4" type="submit">Créer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-100 card">
+                    <div class="w-100 card-header">
+                        <h2>Utilisateurs</h2>
+                    </div>
+
+                    <div class="w-100 card-body">
+                        {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                            <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <table class="w-100 table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Prénom</th>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Rôle</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in users %}
+                                <tr>
+                                    <th scope="row">{{m.id}}</th>
+                                    <td>{{m.username}}</td>
+                                    <td>{{m.first_name}}</td>
+                                    <td>{{m.last_name}}</td>
+                                    <td>{{m.email}}</td>
+                                    <td>
+                                        {% for group in m.groups.all %}
+                                        {{ group.name }}
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <span title="Voir le user" class="m-2 pointer" role="button" data-toggle="modal"
+                                            data-target="#user{{m.id}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                fill="#25a6d5" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                                <path
+                                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                            </svg>
+                                        </span>
+                                        <a href="delete/{{ m.id }}" title="Supprimer la commande" class="m-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red"
+                                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+
+
+                                <div class="modal fade" id="user{{m.id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="User formulaire" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form method="post" enctype="multipart/form-data"
+                                                    action="update/{{m.id}}">
+                                                    <h3 class="my-3">Mettre à jour le user</h3>
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="user{{m.id}}-username">
+                                                            Username</label>
+                                                        <input type="text" class="form-control" name="username"
+                                                            id="user{{m.id}}-username" value="{{m.username}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="user{{m.id}}-first_name">
+                                                            Prénom</label>
+                                                        <input type="text" class="form-control" name="first_name"
+                                                            id="user{{m.id}}-first_name" value="{{m.first_name}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="user{{m.id}}-last_name">
+                                                            Nom</label>
+                                                        <input type="text" class="form-control" name="last_name"
+                                                            id="user{{m.id}}-last_name" value="{{m.last_name}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="user{{m.id}}-email">
+                                                            Email</label>
+                                                        <input type="text" class="form-control" name="email"
+                                                            id="user{{m.id}}-email" value="{{m.email}}">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="user{{m.id}}-group">Rôle</label>
+                                                        <select id="user{{m.id}}-group" name="group"
+                                                            class="form-control">
+                                                            {% for n in groups %}
+                                                            <option value="{{n.id}}">
+                                                                {{n.name}}
+                                                            </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Fermer</button>
+                                                    <button class="btn btn-warning my-4" type="submit">Modifier</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p>Pas de user.</p>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
             <!-- Commandes -->
             {% if commande_form %}
             <div class="w-100 p-0 m-0">
@@ -523,8 +794,6 @@
                 </div>
             </div>
             {% endif %}
-
-
 
             <!-- Factures -->
             {% if facture_form%}
